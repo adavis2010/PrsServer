@@ -11,14 +11,29 @@ namespace PrsServer.Data {
             : base(options) {
         }
 
-        public DbSet<User> Users { get; set; }
-        protected override void OnModelCreating(ModelBuilder builder) { // makes identifier unique
+
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Vendor> Vendors { get; set; }
+
+
+
+
+
+        protected override void OnModelCreating(ModelBuilder builder) { // makes unique identifier
             builder.Entity<User>(e => {
                 e.HasIndex(u => u.Id).IsUnique(true);
+                builder.Entity<Vendor>(e => {
+                    e.HasIndex(u => u.Id).IsUnique(true);
+
+
+                });
             });
+            
+            }
+    }
 
 
 
-        }
-    } }
+        
+    } 
 

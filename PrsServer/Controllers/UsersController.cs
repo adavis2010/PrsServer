@@ -8,23 +8,29 @@ using Microsoft.EntityFrameworkCore;
 using PrsServer.Data;
 using PrsServer.Models;
 
-namespace PrsServer.Controllers
-{
+namespace PrsServer.Controllers {
     [Route("api/[controller]")]//attribute
     [ApiController] //indicator that our controller will read JSON Data
-    public class UsersController : ControllerBase
-    {
+    public class UsersController : ControllerBase {
         private readonly PrsServerDbContext _context; //Dbcontext instance
 
-        public UsersController(PrsServerDbContext context)
-        {
+        public UsersController(PrsServerDbContext context) {
             _context = context;
         }
 
-        // GET: api/Users
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUser()
-        {
+        // Create Login, Password and Username
+        [HttpGet("{username}/{password}")]
+        public async Task<ActionResult<User>> Login(string username, string password) {
+            var user = await _context.Users
+                .SingleOrDefaultAsync(u => u.Username == username
+                                        && u.Password == password);
+            if (user == null) {
+                return NotFound();
+            }
+            return user;
+        }
+
+        public async Task<ActionResult<IEnumerable<User>>> GetUser() {
             return await _context.Users.ToListAsync();
 
 
@@ -32,14 +38,12 @@ namespace PrsServer.Controllers
 
         }
 
-        // GET: api/Users/5
+        // GET: api/Users/5  // Get by PK
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
-        {
+        public async Task<ActionResult<User>> GetUser(int id) {
             var user = await _context.Users.FindAsync(id);
 
-            if (user == null)
-            {
+            if (user == null) {
                 return NotFound();
             }
 
@@ -50,27 +54,19 @@ namespace PrsServer.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
-        {
-            if (id != user.Id)
-            {
+        public async Task<IActionResult> PutUser(int id, User user) {
+            if (id != user.Id) {
                 return BadRequest();
             }
 
             _context.Entry(user).State = EntityState.Modified;
 
-            try
-            {
+            try {
                 await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UserExists(id))
-                {
+            } catch (DbUpdateConcurrencyException) {
+                if (!UserExists(id)) {
                     return NotFound();
-                }
-                else
-                {
+                } else {
                     throw;
                 }
             }
@@ -82,8 +78,7 @@ namespace PrsServer.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
-        {
+        public async Task<ActionResult<User>> PostUser(User user) {
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
@@ -92,11 +87,9 @@ namespace PrsServer.Controllers
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<User>> DeleteUser(int id)
-        {
+        public async Task<ActionResult<User>> DeleteUser(int id) {
             var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
+            if (user == null) {
                 return NotFound();
             }
 
@@ -106,8 +99,7 @@ namespace PrsServer.Controllers
             return user;
         }
 
-        private bool UserExists(int id)
-        {
+        private bool UserExists(int id) {
             return _context.Users.Any(e => e.Id == id);
         }
     }
