@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PrsServer.Data;
 
 namespace PrsServer.Migrations
 {
     [DbContext(typeof(PrsServerDbContext))]
-    partial class PrsServerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210308204430_request")]
+    partial class request
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,9 +70,8 @@ namespace PrsServer.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("DeliveryMode")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(20)")
-                        .HasMaxLength(20);
+                        .HasColumnType("nvarchar(80)")
+                        .HasMaxLength(80);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -78,7 +79,6 @@ namespace PrsServer.Migrations
                         .HasMaxLength(80);
 
                     b.Property<string>("Justification")
-                        .IsRequired()
                         .HasColumnType("nvarchar(80)")
                         .HasMaxLength(80);
 
@@ -87,9 +87,7 @@ namespace PrsServer.Migrations
                         .HasMaxLength(80);
 
                     b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(10)")
-                        .HasMaxLength(10);
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Total")
                         .HasColumnType("decimal(11,2)");

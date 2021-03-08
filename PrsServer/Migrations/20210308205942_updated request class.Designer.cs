@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PrsServer.Data;
 
 namespace PrsServer.Migrations
 {
     [DbContext(typeof(PrsServerDbContext))]
-    partial class PrsServerDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210308205942_updated request class")]
+    partial class updatedrequestclass
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,7 +80,6 @@ namespace PrsServer.Migrations
                         .HasMaxLength(80);
 
                     b.Property<string>("Justification")
-                        .IsRequired()
                         .HasColumnType("nvarchar(80)")
                         .HasMaxLength(80);
 
