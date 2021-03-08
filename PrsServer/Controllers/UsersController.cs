@@ -26,6 +26,10 @@ namespace PrsServer.Controllers
         public async Task<ActionResult<IEnumerable<User>>> GetUser()
         {
             return await _context.Users.ToListAsync();
+
+
+
+
         }
 
         // GET: api/Users/5
