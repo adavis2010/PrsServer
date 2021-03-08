@@ -34,7 +34,7 @@ namespace PrsServer.Models {
 
         public bool IsAdmin { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
+        
 
 
 
