@@ -14,6 +14,7 @@ namespace PrsServer.Data {
 
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<Vendor> Vendors { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
 
 
 
@@ -21,15 +22,21 @@ namespace PrsServer.Data {
 
         protected override void OnModelCreating(ModelBuilder builder) { // makes unique identifier
             builder.Entity<User>(e => {
-                e.HasIndex(u => u.Id).IsUnique(true);
-                builder.Entity<Vendor>(e => {
-                    e.HasIndex(u => u.Id).IsUnique(true);
-
-
+                e.HasIndex(u => u.Id).IsUnique(true); //unique identifier for User
+                builder.Entity<Vendor>(e => { e.HasIndex(u => u.Id).IsUnique(true);//unique for Vendor
                 });
+
+                builder.Entity<Product>(e => e.HasIndex(u => u.PartNbr).IsUnique(true));//unique for Product
+
             });
             
             }
+
+
+
+
+
+        public DbSet<PrsServer.Models.Product> Product { get; set; }
     }
 
 
