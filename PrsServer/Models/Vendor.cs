@@ -32,7 +32,7 @@ namespace PrsServer.Models {
         public string Zip { get; set; }
 
         [StringLength(12)]
-        public string PhoneNumber { get; set; }
+        public string Phone { get; set; }
 
         [StringLength(255)]
         public string Email { get; set; }
