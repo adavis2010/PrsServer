@@ -22,7 +22,7 @@ namespace PrsServer.Data {
 
 
         protected override void OnModelCreating(ModelBuilder builder) { // makes unique identifier
-            builder.Entity<User>(e => {e.HasIndex(u => u.Id).IsUnique(true);//unique identifier for User
+            builder.Entity<User>(e => {e.HasIndex(u => u.Id).IsUnique(true);//unique for User
             }); 
 
             builder.Entity<Vendor>(e => {
