@@ -43,7 +43,7 @@ namespace PrsServer.Controllers
         }
 
 
-        //GET: Review Request /// NOT SURE THIS IS RIGHT
+        //GET: Review Request /// GetReviews(userId) - retrieving requests in review status and not owned by userId
         [HttpGet("review/{userid}")]
         public async Task<ActionResult<IEnumerable<Request>>> GetRequestsInReview(int userid) {
             return await _context.Requests
@@ -52,16 +52,39 @@ namespace PrsServer.Controllers
                                          .ToListAsync();
 
         }
-        //PUT: orders 50.00 and under go straight to approve???????????????????????????????????
-        [HttpPut("Approve/{id}")] //Add method on status
-        public async Task<IActionResult>Request>>> SetRequestStatusToApproved(int id) {
+
+        //GET: Approve Request /// GetReviews(userId) - retrieving requests in review status and not owned by userId
+        [HttpGet("approve/")]
+        public async Task<ActionResult<IEnumerable<Request>>> GetRequestsInApprove() {
+            int userid = 0;////added this method and Rsquig was gone
+            return await _context.Requests
+                                    .Where(v => v.Status == Models.Request.StatusReview
+                                             && v.UserId != userid)//user id was rsquigged
+                                         .ToListAsync();
+        }
+
+
+        //GET: Reject request//
+        [HttpGet("reject/")]
+        public async Task<ActionResult<IEnumerable<Request>>> GetRequestsInReject() {
+            int userid = 0;////added this method and Rsquig was gone
+            return await _context.Requests
+                                    .Where(v => v.Status == Models.Request.StatusReview
+                                             && v.UserId != userid)//user id was rsquigged
+                                         .ToListAsync();
+        }
+
+
+        //PUT: unconditionally setting to approve // 
+        [HttpPut("approve")] //
+        public async Task<IActionResult> SetRequestStatusToApproved(Request request) {
             //whatever gets passed in on url gets passed in on this method
-            var request = await _context.FindAsync(id);
+            
             if (request == null) {
-                return NotFound();
+                return BadRequest();
             }
-            Request.Status = (.Total <= 50) ? "REVIEW" : "APPROVED"; // used ternary operator
-            return await PutRequest(Request.Id, request); // Set property to string Edit
+            request.Status = Request.StatusApproved; 
+            return await PutRequest(request.Id, request); // Set property to string Edit
 
         }
 

@@ -13,7 +13,12 @@ namespace PrsServer.Models {
 
         public int Id { get; set; }
 
-        public static string StatusReview = "REVIEW"; // method for review..I think?
+        public static string StatusReview = "REVIEW"; // method for review
+        public static string StatusApprove = "APPROVED"; // method for approve 
+        public static string StatusReject = "REJECTED"; //method for rejected
+        public static string StatusGetReviews = "GET REVIEWS"; //method for get reviews
+        
+
 
         [StringLength(80), Required] //Attributes
         public string Description { get; set; }
@@ -36,7 +41,7 @@ namespace PrsServer.Models {
         [Required]
         public int UserId { get; set; }
 
-        public virtual User User { get; set; }
+        public virtual User User { get; set; } //FK to user
 
 
     }
