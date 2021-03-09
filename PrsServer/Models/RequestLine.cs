@@ -24,7 +24,7 @@ namespace PrsServer.Models {
         public virtual Product Product { get; set; }
 
         [Required] // attribute
-        public int Quantity { get; set; }
+        public int Quantity { get; set; } = 1;
 
         
 

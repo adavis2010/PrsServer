@@ -14,9 +14,9 @@ namespace PrsServer.Models {
         public int Id { get; set; }
 
         public static string StatusReview = "REVIEW"; // method for review
-        public static string StatusApprove = "APPROVED"; // method for approve 
+        public static string StatusApproved = "APPROVED"; // method for approve 
         public static string StatusReject = "REJECTED"; //method for rejected
-        public static string StatusGetReviews = "GET REVIEWS"; //method for get reviews
+        
         
 
 
@@ -33,10 +33,10 @@ namespace PrsServer.Models {
         public string DeliveryMode { get; set; } = "Pickup";
 
         [StringLength(10), Required]  //Attributes
-        public string Status { get; set; } = "StatusNew";
+        public string Status { get; set; } = "New";
 
         [Column(TypeName = "decimal(11,2)")] //Attributes
-        public decimal Total { get; set; }
+        public decimal Total { get; set; } = 0;
 
         [Required]
         public int UserId { get; set; }

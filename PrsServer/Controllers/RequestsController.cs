@@ -53,37 +53,39 @@ namespace PrsServer.Controllers
 
         }
 
-        //GET: Approve Request /// GetReviews(userId) - retrieving requests in review status and not owned by userId
-        [HttpGet("approve/")]
-        public async Task<ActionResult<IEnumerable<Request>>> GetRequestsInApprove() {
-            int userid = 0;////added this method and Rsquig was gone
+        
+
+
+        //PUT: Reject request//
+        [HttpPut("reject")]
+        public async Task<ActionResult<IEnumerable<Request>>> PutRequestsInReject(int userid) {
             return await _context.Requests
-                                    .Where(v => v.Status == Models.Request.StatusReview
-                                             && v.UserId != userid)//user id was rsquigged
+                                    .Where(v => v.Status == Models.Request.StatusReject
+                                             && v.UserId != userid)
                                          .ToListAsync();
         }
 
-
-        //GET: Reject request//
-        [HttpGet("reject/")]
-        public async Task<ActionResult<IEnumerable<Request>>> GetRequestsInReject() {
-            int userid = 0;////added this method and Rsquig was gone
-            return await _context.Requests
-                                    .Where(v => v.Status == Models.Request.StatusReview
-                                             && v.UserId != userid)//user id was rsquigged
-                                         .ToListAsync();
+        //PUT: 50:00 auto approved
+        [HttpPut("review")] //Add method on status
+        public async Task<IActionResult> SetRequestStatusToReview(Request request) {
+            //whatever gets passed in on url gets passed in on this method
+            if (request == null) {
+                return NotFound();
+            }
+            request.Status = (request.Total <= 50) ? "APPROVED" : "REVIEW"; // 
+            return await PutRequest(request.Id, request); // Set property to string Edit
         }
 
 
-        //PUT: unconditionally setting to approve // 
-        [HttpPut("approve")] //
+            //PUT: unconditionally setting to approve // 
+            [HttpPut("approve")] //
         public async Task<IActionResult> SetRequestStatusToApproved(Request request) {
             //whatever gets passed in on url gets passed in on this method
             
             if (request == null) {
                 return BadRequest();
             }
-            request.Status = Request.StatusApproved; 
+            request.Status = Models.Request.StatusApproved; 
             return await PutRequest(request.Id, request); // Set property to string Edit
 
         }
