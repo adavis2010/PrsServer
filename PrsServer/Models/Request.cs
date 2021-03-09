@@ -13,6 +13,8 @@ namespace PrsServer.Models {
 
         public int Id { get; set; }
 
+        public static string StatusReview = "REVIEW"; // method for review..I think?
+
         [StringLength(80), Required] //Attributes
         public string Description { get; set; }
 

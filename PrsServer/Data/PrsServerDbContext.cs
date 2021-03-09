@@ -46,6 +46,12 @@ namespace PrsServer.Data {
 
 
         public DbSet<PrsServer.Models.Request> Request { get; set; }
+
+
+
+
+
+        public DbSet<PrsServer.Models.Requestline> Requestline { get; set; }
     }
 
 

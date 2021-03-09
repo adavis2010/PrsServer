@@ -43,13 +43,13 @@ namespace PrsServer.Controllers
         }
 
 
-        //GET: Review Request
-        [HttpGet("reviewed/{userid}")]
+        //GET: Review Request /// NOT SURE THIS IS RIGHT
+        [HttpGet("review/{userid}")]
         public async Task<ActionResult<IEnumerable<Request>>> GetRequestsInReview(int userid) {
             return await _context.Requests
                                     .Where(v => v.Status == Models.Request.StatusReview
                                              && v.UserId != userid)
-                                    .ToListAsync();
+                                         .ToListAsync();
 
         }
 
