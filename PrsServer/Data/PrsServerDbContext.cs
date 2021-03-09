@@ -16,14 +16,14 @@ namespace PrsServer.Data {
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<Product> Products { get; set; }
         public virtual DbSet<Request> Requests { get; set; }
+        public virtual DbSet<Requestline> Requestlines { get; set; }
 
 
 
 
         protected override void OnModelCreating(ModelBuilder builder) { // makes unique identifier
-            builder.Entity<User>(e => {
-                e.HasIndex(u => u.Id).IsUnique(true);
-            }); //unique identifier for User
+            builder.Entity<User>(e => {e.HasIndex(u => u.Id).IsUnique(true);//unique identifier for User
+            }); 
 
             builder.Entity<Vendor>(e => {
                 e.HasIndex(u => u.Id).IsUnique(true);//unique for Vendor
@@ -36,22 +36,17 @@ namespace PrsServer.Data {
         }
 
 
-
-
-
         public DbSet<PrsServer.Models.Product> Product { get; set; }
-
-
-
-
 
         public DbSet<PrsServer.Models.Request> Request { get; set; }
 
-
-
-
-
         public DbSet<PrsServer.Models.Requestline> Requestline { get; set; }
+
+
+
+
+
+
     }
 
 

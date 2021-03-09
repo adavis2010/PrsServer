@@ -86,7 +86,7 @@ namespace PrsServer.Controllers
             return CreatedAtAction("GetRequestline", new { id = requestline.Id }, requestline);
         }
 
-        // DELETE: api/Requestlines/5
+        // DELETE: api/Requestlines/id #
         [HttpDelete("{id}")]
         public async Task<ActionResult<Requestline>> DeleteRequestline(int id)
         {
