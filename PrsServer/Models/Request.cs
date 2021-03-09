@@ -11,12 +11,6 @@ namespace PrsServer.Models {
         public Request() { //default constructor
         }
 
-        public static string StatusNew = "NEW";
-        public static string StatusReview = "REVIEW";
-        public static string StatusApproved = "APPROVED";
-        public static string StatusRejected = "REJECTED";
-        public static string StatusEdit = "EDIT";
-
         public int Id { get; set; }
 
         [StringLength(80), Required] //Attributes
@@ -32,7 +26,7 @@ namespace PrsServer.Models {
         public string DeliveryMode { get; set; } = "Pickup";
 
         [StringLength(10), Required]  //Attributes
-        public string Status { get; set; } = "NEW";
+        public string Status { get; set; } = "StatusNew";
 
         [Column(TypeName = "decimal(11,2)")] //Attributes
         public decimal Total { get; set; }

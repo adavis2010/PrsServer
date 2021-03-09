@@ -21,14 +21,14 @@ namespace PrsServer.Controllers
             _context = context;
         }
 
-        // GET: api/Requests
+        // GET: api/Requests  (Get All)
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Request>>> GetRequest()
         {
             return await _context.Requests.ToListAsync();
         }
 
-        // GET: api/Requests/5
+        // GET: api/Requests/5 (PK)
         [HttpGet("{id}")]
         public async Task<ActionResult<Request>> GetRequest(int id)
         {
@@ -42,10 +42,24 @@ namespace PrsServer.Controllers
             return request;
         }
 
-        // PUT: api/Requests/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
+
+        //GET: Review Request
+        [HttpGet("reviewed/{userid}")]
+        public async Task<ActionResult<IEnumerable<Request>>> GetRequestsInReview(int userid) {
+            return await _context.Requests
+                                    .Where(v => v.Status == Models.Request.StatusReview
+                                             && v.UserId != userid)
+                                    .ToListAsync();
+
+        }
+
+
+
+
+            // PUT: api/Requests/5 (Change)
+            // To protect from overposting attacks, enable the specific properties you want to bind to, for
+            // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+            [HttpPut("{id}")]
         public async Task<IActionResult> PutRequest(int id, Request request)
         {
             if (id != request.Id)

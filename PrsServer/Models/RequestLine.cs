@@ -11,7 +11,7 @@ namespace PrsServer.Models {
         public Requestline() { //default constructor
         }
 
-        [Required]
+        [Required] //attribute
         public int Id { get; set; }
 
         public int RequestId { get; set; }
@@ -23,7 +23,7 @@ namespace PrsServer.Models {
 
         public virtual Product Product { get; set; }
 
-        [Required]
+        [Required] // attribute
         public int Quantity { get; set; }
 
         

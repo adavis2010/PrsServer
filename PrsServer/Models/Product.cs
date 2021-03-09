@@ -23,7 +23,7 @@ namespace PrsServer.Models {
         public decimal Price { get; set; }
 
         [StringLength(30), Required] // Attribute
-        public string Unit { get; set; }
+        public string Unit { get; set; } 
 
         [StringLength(255)] //Attribute
         public string PhotoPath { get; set; }
