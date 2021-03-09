@@ -52,9 +52,18 @@ namespace PrsServer.Controllers
                                          .ToListAsync();
 
         }
+        //PUT: orders 50.00 and under go straight to approve???????????????????????????????????
+        [HttpPut("Approve/{id}")] //Add method on status
+        public async Task<IActionResult>Request>>> SetRequestStatusToApproved(int id) {
+            //whatever gets passed in on url gets passed in on this method
+            var request = await _context.FindAsync(id);
+            if (request == null) {
+                return NotFound();
+            }
+            Request.Status = (.Total <= 50) ? "REVIEW" : "APPROVED"; // used ternary operator
+            return await PutRequest(Request.Id, request); // Set property to string Edit
 
-
-
+        }
 
             // PUT: api/Requests/5 (Change)
             // To protect from overposting attacks, enable the specific properties you want to bind to, for
