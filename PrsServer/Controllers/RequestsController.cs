@@ -24,15 +24,20 @@ namespace PrsServer.Controllers
         // GET: api/Requests  (Get All)
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Request>>> GetRequest()
-        {
+        {  
             return await _context.Requests.ToListAsync();
+
         }
 
         // GET: api/Requests/5 (PK)
         [HttpGet("{id}")]
         public async Task<ActionResult<Request>> GetRequest(int id)
         {
-            var request = await _context.Requests.FindAsync(id);
+            var request = await _context.Requests
+                .Include(x => x.User)
+                .Include(x => x.Requestlines)
+                .ThenInclude(x => x.Product)
+                .SingleOrDefaultAsync(x => x.Id == id);
 
             if (request == null)
             {

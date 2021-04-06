@@ -41,8 +41,7 @@ namespace PrsServer.Models {
         public int UserId { get; set; }
 
         public virtual User User { get; set; } //FK to user
-
-
+        public IEnumerable<Requestline> Requestlines{ get; internal set; }
     }
 }
 
