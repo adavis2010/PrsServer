@@ -14,7 +14,7 @@ namespace PrsServer.Models {
         public int Id { get; set; }
 
         public static string StatusReview = "REVIEW"; // method for review
-        public static string StatusApproved = "APPROVED"; // method for ap[dbo].[Requestline]prove 
+        public static string StatusApproved = "APPROVED"; // method for approved
         public static string StatusReject = "REJECTED"; //method for rejected
         
 
