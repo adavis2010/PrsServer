@@ -65,11 +65,12 @@ namespace PrsServer.Controllers
 
         //PUT: Reject request//
         [HttpPut("reject")]
-        public async Task<ActionResult<IEnumerable<Request>>> PutRequestsInReject(int userid) {
-            return await _context.Requests
-                                    .Where(v => v.Status == Models.Request.StatusReject
-                                             && v.UserId != userid)
-                                         .ToListAsync();
+        public async Task<IActionResult> PutRequestsInReject(Request request) {
+            if (request == null) {
+                return BadRequest();
+            }
+            request.Status = Models.Request.StatusReject;
+            return await PutRequest(request.Id, request);
         }
 
         //PUT: 50:00 auto approved

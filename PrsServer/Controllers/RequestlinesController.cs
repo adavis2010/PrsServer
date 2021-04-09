@@ -21,6 +21,22 @@ namespace PrsServer.Controllers
             _context = context;
         }
 
+        private async Task recalculatetotal(int requestId) {
+            var request = await _context.Request.FindAsync(requestId);
+            if (request == null) throw new Exception("Cannot find request");
+            request.Total = (from r in _context.Requestlines
+                             join p in _context.Product
+                             on r.ProductId equals p.Id
+                             where r.RequestId == requestId
+                             select new { linetotal = r.Quantity * r.Product.Price }).Sum(lt => lt.linetotal);
+            await _context.SaveChangesAsync();
+
+        }
+            private async Task refreshrequestline(Requestline requestline) {
+            _context.Entry(requestline).State = EntityState.Detached;
+            await _context.Requestline.FindAsync(requestline.Id);
+        }
+
         // GET: api/Requestlines(Get All)
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Requestline>>> GetRequestline()
@@ -32,13 +48,14 @@ namespace PrsServer.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Requestline>> GetRequestline(int id)
         {
-            var requestline = await _context.Requestline.FindAsync(id);
+            var requestline = await _context.Requestline.Include(x => x.Product).SingleOrDefaultAsync(x => x.Id == id);
 
             if (requestline == null)
             {
                 return NotFound();
             }
-
+            await refreshrequestline(requestline);
+            await recalculatetotal(requestline.RequestId);
             return requestline;
         }
 
@@ -71,6 +88,9 @@ namespace PrsServer.Controllers
                 }
             }
 
+            await refreshrequestline(requestline);
+            await recalculatetotal(requestline.RequestId);
+
             return NoContent();
         }
 
@@ -82,6 +102,9 @@ namespace PrsServer.Controllers
         {
             _context.Requestline.Add(requestline);
             await _context.SaveChangesAsync();
+
+            await refreshrequestline(requestline);
+            await recalculatetotal(requestline.RequestId);
 
             return CreatedAtAction("GetRequestline", new { id = requestline.Id }, requestline);
         }
@@ -99,10 +122,14 @@ namespace PrsServer.Controllers
             _context.Requestline.Remove(requestline);
             await _context.SaveChangesAsync();
 
+            await refreshrequestline(requestline);
+            await recalculatetotal(requestline.RequestId);
+
             return requestline;
         }
 
         private bool RequestlineExists(int id)
+
         {
             return _context.Requestline.Any(e => e.Id == id);
         }
